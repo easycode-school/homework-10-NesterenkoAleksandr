@@ -10,17 +10,18 @@ import { AuthGlobalService } from '../services/auth-global.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    constructor(
-        private auth: AuthGlobalService
-    ) {}
+    constructor(private auth: AuthGlobalService) {}
+
+    /**
+     * Прехватить обращение к серверу
+     */
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         req = req.clone({
             setHeaders: {
                 'x-access-token': `${this.auth.getToken}`
             }
         });
-        console.log(req);
+
         return next.handle(req);
     }
-
 }

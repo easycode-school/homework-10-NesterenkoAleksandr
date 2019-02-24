@@ -10,20 +10,22 @@ import { AuthGlobalService } from 'src/app/services/auth-global.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  public user: User;
-  public activeUser: string;
-  public activeTab = 'selfies';
+  /** Пользователь, данные которого просматриваются */
+  private user: User;
+
+  /** Текущая вкладка */
+  private activeTab = 'selfies';
+
   constructor(
     private activeRoute: ActivatedRoute,
-    private userService: UserService,
-    private auth: AuthGlobalService
-  ) { 
-    this.activeUser = this.auth.getUserId;
-  }
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
-    const id = this.activeRoute.snapshot.params['id'];
+    const id = this.activeRoute.snapshot.params.id;
+
     this.userService.getUserInfo(id).subscribe((data: User) => {
+      console.log(data);
       this.user = data;
     });
   }
