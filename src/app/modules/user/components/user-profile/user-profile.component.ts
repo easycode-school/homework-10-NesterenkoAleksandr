@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
-import { AuthGlobalService } from 'src/app/services/auth-global.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,6 +12,9 @@ export class UserProfileComponent implements OnInit {
   /** Пользователь, данные которого просматриваются */
   private user: User;
 
+  /** Идентификатор пользователя данные которого необходимо отобразить */
+  private userId: string;
+
   /** Текущая вкладка */
   private activeTab = 'selfies';
 
@@ -22,10 +24,9 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const id = this.activeRoute.snapshot.params.id;
+    this.userId = this.activeRoute.snapshot.params.id;
 
-    this.userService.getUserInfo(id).subscribe((data: User) => {
-      console.log(data);
+    this.userService.getUserInfo(this.userId).subscribe((data: User) => {
       this.user = data;
     });
   }
